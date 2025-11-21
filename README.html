@@ -14,7 +14,7 @@
       }
 
       body[data-theme="warm"] {
-        --bg: #120505;
+        --bg: #2a0b0b;
         --fg: #fdf4e3;
         --accent: #ff7b54;
         --accent-soft: rgba(255, 123, 84, 0.2);
@@ -37,17 +37,21 @@
         padding: 0;
       }
 
-      body {
+     body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           sans-serif;
-        background: radial-gradient(circle at top, #1b2838 0, var(--bg) 45%);
+        /* 배경 그라데이션 조정: 중앙 밝기 유지, 외곽 더 어둡게 */
+        background: radial-gradient(
+          circle at center,
+          #1b2838 10%,
+          var(--bg) 60%
+        );
         color: var(--fg);
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-
       .app {
         width: min(980px, 100%);
         padding: 24px 20px 28px;
@@ -165,13 +169,14 @@
         border-radius: 18px;
         overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.06);
+        /* 배경 그라데이션 수정: 밝은 영역 확대 */
         background: radial-gradient(
           circle at bottom,
-          #ffb347 0,
-          #ff7a3c 18%,
-          #1b1020 65%
+          #e4b04f 0, /* 더 밝은 색 */
+          #ff8a4c 20%, /* 밝은 영역 퍼센트 증가 */
+          #1b1020 70%
         );
-        min-height: 260px;
+        min-height: 280px; /* 불꽃이 더 잘 보이도록 높이 증가 */
         display: flex;
         align-items: stretch;
         justify-content: center;
@@ -186,58 +191,97 @@
         justify-content: center;
       }
 
-      /* 간단한 CSS 불 효과 */
-    .flame-layer {
-  position: absolute;
-  bottom: -25%;
-  width: 180%;
-  height: 140%;
-  background: radial-gradient(
-    circle at 50% 80%,
-    rgba(255, 250, 230, 0.95),
-    rgba(255, 200, 90, 0.85),
-    rgba(255, 120, 60, 0.38),
-    rgba(255, 70, 30, 0.16),
-    transparent 70%
-  );
-  opacity: 0.9;
-  mix-blend-mode: screen;
-  filter: blur(12px);
-  animation: flameMove 2.8s infinite ease-in-out alternate;
-}
+      /* 기존 불꽃 효과 */
+      .flame-layer {
+        position: absolute;
+        bottom: -20%;
+        width: 150%; /* 크기 증가 */
+        height: 120%; /* 높이 증가 */
+        /* 불꽃 색상 농도와 범위 증가 */
+        background: radial-gradient(
+          circle at 50% 80%,
+          rgba(245, 233, 233, 0.95), /* 더 밝게 */
+          rgba(220, 175, 90, 0.9), /* 밝은 노란색 영역 증가 */
+          rgba(255, 120, 64, 0.4), /* 주황색 농도 증가 */
+          transparent 50% /* 불꽃이 퍼지는 범위 증가 */
+        );
+        opacity: 0.8; /* 불투명도 증가 */
+        mix-blend-mode: screen;
+        filter: blur(4px); /* 블러를 더 강하게 */
+        animation: flicker 1.8s infinite ease-in-out alternate; /* 애니메이션 속도 미세 조정 */
+      }
 
-.flame-layer:nth-child(2) {
-  filter: blur(18px);
-  opacity: 0.55;
-  animation-duration: 3.6s;
-  animation-direction: alternate-reverse;
-  transform: scaleX(1.1);
-}
+      .flame-layer:nth-child(2) {
+        animation-duration: 1.6s;
+        animation-direction: alternate-reverse;
+        opacity: 0.6; /* 농도 증가 */
+        transform: scaleX(1.1); /* 크기 증가 */
+      }
 
-.flame-layer:nth-child(3) {
-  filter: blur(24px);
-  opacity: 0.45;
-  animation-duration: 4.4s;
-  transform: scaleX(0.9);
-}
+      .flame-layer:nth-child(3) {
+        animation-duration: 2.5s;
+        opacity: 0.6; /* 농도 증가 */
+        transform: scaleX(1); /* 크기 증가 */
+      }
+      
+      /* 불꽃 레이어를 하나 더 추가해서 불꽃이 더 풍성해 보이게 합니다. */
+      .flame-layer:nth-child(4) {
+        animation-duration: 1.6s;
+        animation-delay: 0.5s;
+        opacity: 0.75;
+        transform: scaleX(1.15) scaleY(0.9);
+      }
 
-     @keyframes flameMove {
-  0% {
-    transform: translateX(-6px) translateY(0px) scaleY(1);
-  }
-  25% {
-    transform: translateX(4px) translateY(-8px) scaleY(1.12);
-  }
-  50% {
-    transform: translateX(-3px) translateY(-4px) scaleY(1.05);
-  }
-  75% {
-    transform: translateX(5px) translateY(-12px) scaleY(1.18);
-  }
-  100% {
-    transform: translateX(-4px) translateY(-6px) scaleY(1.08);
-  }
-}
+      @keyframes flicker {
+        0% {
+          transform: translateX(-5px) scaleY(1);
+        }
+        50% {
+          transform: translateX(5px) scaleY(1.15); /* 움직임 폭 증가 */
+        }
+        100% {
+          transform: translateX(-4px) scaleY(1.08);
+        }
+      }
+
+      /* 스파클 효과 (동그라미 모양) */
+      .sparkle {
+        position: absolute;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 1),
+          rgba(255, 230, 80, 0.9), /* 더 밝은 노란색 */
+          transparent 70%
+        );
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0);
+        animation: sparkleBurst 3s forwards ease-out; /* 스파클 애니메이션 속도 증가 */
+        mix-blend-mode: screen;
+      }
+
+      @keyframes sparkleBurst {
+        0% {
+          opacity: 1; /* 시작 시 밝기 증가 */
+          transform: scale(0.1);
+          filter: blur(1px);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(0.5) translateY(-50px);
+          filter: blur(1px);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(0.8) translateY(-150px) translateX(var(--sparkle-x-offset));
+          filter: blur(4px);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1) translateY(-300px) translateX(var(--sparkle-x-offset)); /* 더 높이 튀도록 조정 */
+          filter: blur(6px);
+        }
+      }
 
       /* 장작 */
       .logs {
@@ -489,7 +533,6 @@
       </header>
 
       <div class="card">
-        <!-- 모드 선택 탭 -->
         <div class="mode-tabs">
           <button class="mode-btn active" data-mode="fire">
             <span class="emoji">🔥</span><span>불멍 멍때리기</span>
@@ -502,7 +545,6 @@
           </button>
         </div>
 
-        <!-- 불멍 모드 -->
         <section id="mode-fire" class="mode-section active">
           <div class="mode-header">
             <h2>🔥 불멍 디지털 디톡스</h2>
@@ -512,10 +554,11 @@
             </p>
           </div>
           <div class="fire-wrapper">
-            <div class="fire-visual">
+            <div class="fire-visual" id="fireVisual">
+              <div class="flame-layer"></div> 
               <div class="flame-layer"></div>
               <div class="flame-layer"></div>
-              <div class="flame-layer"></div>
+              <div class="flame-layer"></div> 
               <div class="logs">
                 <div class="log"></div>
                 <div class="log"></div>
@@ -552,7 +595,6 @@
           </div>
         </section>
 
-        <!-- 타이머 모드 -->
         <section id="mode-timer" class="mode-section">
           <div class="mode-header">
             <h2>⏰ 타이머</h2>
@@ -603,7 +645,6 @@
           </div>
         </section>
 
-        <!-- 스톱워치 모드 -->
         <section id="mode-stopwatch" class="mode-section">
           <div class="mode-header">
             <h2>⏱️ 스톱워치</h2>
@@ -693,6 +734,46 @@
           console.warn("알람 재생 실패:", e);
         }
       }
+
+      // ======================
+      // 스파클 효과 로직 (빈도 및 크기 증가)
+      // ======================
+      const fireVisual = document.getElementById("fireVisual");
+
+      function createSparkle() {
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+
+        // 스파클의 크기를 랜덤하게 설정 (12px ~ 40px, 범위 확장)
+        const size = Math.random() * 28 + 12;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+
+        const fireVisualRect = fireVisual.getBoundingClientRect();
+        const baseLeft = fireVisualRect.width / 2;
+        const baseBottom = 50; 
+
+        // 스파클 시작 위치 (좌우로 약간 퍼지게)
+        const startX = baseLeft + (Math.random() - 0.5) * 80; // 좌우 퍼짐 증가
+        const startBottom = baseBottom + (Math.random() * 20 - 10); 
+
+        sparkle.style.left = `${startX}px`;
+        sparkle.style.bottom = `${startBottom}px`;
+
+        // 스파클이 튀어 오를 때 좌우로 퍼지는 정도를 위한 변수
+        sparkle.style.setProperty('--sparkle-x-offset', `${(Math.random() - 0.5) * 100}px`);
+
+        fireVisual.appendChild(sparkle);
+
+        // 애니메이션이 끝나면 요소 제거
+        sparkle.addEventListener('animationend', () => {
+          sparkle.remove();
+        });
+      }
+
+      // 0.1초마다 스파클 생성 (빈도 2배 증가)
+      setInterval(createSparkle, 100);
+
 
       // ======================
       // 타이머 로직
